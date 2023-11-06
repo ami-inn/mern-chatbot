@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 // remove this in production
 app.use(morgan('dev'));
-app.use('api/v1', appRouter);
+app.use('/api/v1', appRouter);
 app.get('/test', (req, res, next) => {
     return res.send("test");
 });
