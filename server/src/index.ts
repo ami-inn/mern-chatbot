@@ -1,11 +1,12 @@
-import express from 'express'
+import app from "./app.js"
+import { connectToDatabase } from "./db/connection.js"
+import { config } from 'dotenv'
+config()
 
+// connections and listeners
 
-const app = express()
+const PORT = process.env.PORT || 5000
 
-app.get('/hello',(req,res,next) => {
-  return res.send("Hello")
-})
-
-
-app.listen(5000,()=>console.log(`server is running on port ${5000}`))
+connectToDatabase().then(()=>{
+  app.listen(PORT,()=>console.log(`server is running on port ${5000}`))
+}).catch((err)=>console.log(err))
