@@ -5,6 +5,7 @@ import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import Chat from "./pages/Chat"
 import Notfound from "./pages/Notfound"
+import ParticlesBackground from "./components/ParticlesBackground"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   return (
 
     <main>
+      <ParticlesBackground/>
       <Header/>
       <Routes>
         <Route path="/" element={<Home/>} />
