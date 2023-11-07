@@ -22,3 +22,14 @@ html,body{
   text-decoration: none;
   letter-spacing: 1px;
 }
+
+.parent-container {
+  position: relative;
+  z-index: 2; /* Set a higher value than .particles-container */
+}
+
+.MuiOutlinedInput-input-root.Mui-focused,
+.MuiOutlinedInput-notchedOutline
+{
+  border-color: white !important;
+}
