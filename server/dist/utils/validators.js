@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator';
 export const validate = (validations) => {
+    console.log('entrerrrrrrrrr');
     return async (req, res, next) => {
         for (let validation of validations) {
             const result = await validation.run(req);

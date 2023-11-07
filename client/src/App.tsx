@@ -8,6 +8,7 @@ import Notfound from "./pages/Notfound";
 import ParticlesBackground from "./components/ParticlesBackground";
 
 function App() {
+  
   return (
     <main>
       <div className="particles-container">

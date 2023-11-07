@@ -7,6 +7,9 @@ const Header = () => {
 
   const auth = useAuth()
 
+  console.log(auth?.isLoggedIn,'jdklklf');
+  
+
   return (
     <AppBar
       sx={{ bgcolor: "transparent", position: "static", boxShadow: "none" }}

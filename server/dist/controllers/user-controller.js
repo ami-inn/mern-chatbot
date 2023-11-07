@@ -28,7 +28,7 @@ export const userSignup = async (req, res, next) => {
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
         res.cookie('auth_token', token, { path: '/', domain: "localhost", expires, httpOnly: true, signed: true });
-        return res.status(201).json({ success: true, message: "ok", user });
+        return res.status(201).json({ success: true, message: "ok", email: user.email, name: user.name });
     }
     catch (error) {
         console.log(error);
@@ -38,24 +38,30 @@ export const userSignup = async (req, res, next) => {
 export const userLogin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        console.log('enter heree', req.body);
         const user = await User.findOne({ email });
+        // console.log(user,'userrrr');
         if (!user) {
             return res.status(401).json({ success: false, message: "no user exists" });
         }
+        console.log('--------');
         const isPasswordCorrect = await compare(password, user.password);
+        console.log(isPasswordCorrect, 'passss');
         if (!isPasswordCorrect) {
             return res.status(401).json({ success: false, message: "incorrect password" });
         }
+        console.log('-----------');
         res.clearCookie(COOKIE_NAME, { domain: "localhost", httpOnly: true, signed: true, path: '/' });
         const token = createToken(user._id.toString(), user.email, "7d");
+        console.log(token, 'tokennn');
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
         res.cookie('auth_token', token, { path: '/', domain: "localhost", expires, httpOnly: true, signed: true });
-        return res.status(201).json({ success: true, message: "ok", user });
+        return res.status(200).json({ success: true, message: "ok", email: user.email, name: user.name });
     }
     catch (error) {
         console.log(error);
-        return res.status(200).json({ message: "ERROR", cause: error.message });
+        return res.status(201).json({ message: "ERROR", cause: error.message });
     }
 };
 //# sourceMappingURL=user-controller.js.map
