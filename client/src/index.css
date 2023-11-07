@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Work+Sans&display=swap');
+
+html,body{
+  margin: 0;
+  padding: 0;
+  background: #00132e ;
+  color:  white;
+  font-family: 'Roboto Slab',serif;
+}
