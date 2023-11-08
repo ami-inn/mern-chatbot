@@ -33,3 +33,8 @@ export const signupValidator = [
     body("name").notEmpty().withMessage("Name is Required"),
     ...loginValidator,
 ]
+
+export const messageValidator = [
+    body("message").notEmpty().withMessage("Message is Required"),
+    ...loginValidator,
+]
