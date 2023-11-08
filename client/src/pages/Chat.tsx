@@ -3,8 +3,9 @@ import { red } from "@mui/material/colors";
 import { useAuth } from "../context/AuthContext";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from 'react-icons/io'
-import { useRef, useState } from "react";
-import { sendChatRequest } from "../helpers/api-communicator";
+import { useLayoutEffect, useRef, useState } from "react";
+import { getUserChats, sendChatRequest } from "../helpers/api-communicator";
+import toast from "react-hot-toast";
 
 // const chatMessages = [
 //   {
@@ -70,6 +71,27 @@ const Chat = () => {
 
      setChatMessages([...chatData.chats])
   }
+
+  const handleDeleteChats = async ()=>{
+
+  }
+
+  useLayoutEffect(()=>{
+    if(auth?.isLoggedIn && auth.user){
+      console.log('enterredd');
+      
+      toast.loading("loading chats",{id:"loadChats"})
+      getUserChats().then((data:any)=>{
+        setChatMessages({...data.chats})
+        toast.success("Loaded successfully",{id:"loadchats"})
+      }).catch(err=>{
+        console.log(err);
+        toast.error("Loading Failed",{id:"loadchats"})
+        
+    })
+    }
+
+  },[auth])
 
   return (
     <Box
