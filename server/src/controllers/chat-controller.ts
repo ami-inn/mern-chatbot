@@ -3,10 +3,15 @@ import User from "../models/User.js"
 import { OpenAIApi,ChatCompletionRequestMessage } from "openai"
 import { configureOpenAI } from "../config/openai-config.js"
 
-export const generateChatCompletion = async(req:Request,res,Response,NextFunction)=>{
+export const generateChatCompletion = async(req:Request,res:Response,next:NextFunction)=>{
 
     try {
+        // console.log('fkdksdkjlskjkajkljkl');
+        
         const {message} = req.body
+
+        // console.log(req.body,'jafksddjjjksakjldlkjklj');
+        
 
         const user = await User.findById(res.locals.jwtData.id)
     
@@ -37,7 +42,7 @@ export const generateChatCompletion = async(req:Request,res,Response,NextFunctio
         return res.status(200).json({chats:user.chats})
     
     } catch (error) {
-        console.log(error);
+        console.log(error,"errorrrrrrrrrr");
         res.status(400).json({message:"something went wrong"})
         
     }

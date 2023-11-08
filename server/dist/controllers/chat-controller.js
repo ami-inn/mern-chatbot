@@ -1,9 +1,11 @@
 import User from "../models/User.js";
 import { OpenAIApi } from "openai";
 import { configureOpenAI } from "../config/openai-config.js";
-export const generateChatCompletion = async (req, res, Response, NextFunction) => {
+export const generateChatCompletion = async (req, res, next) => {
     try {
+        // console.log('fkdksdkjlskjkajkljkl');
         const { message } = req.body;
+        // console.log(req.body,'jafksddjjjksakjldlkjklj');
         const user = await User.findById(res.locals.jwtData.id);
         if (!user) {
             return res.status(404).json({ message: "user not registered or token malfunctioned" });
@@ -23,7 +25,7 @@ export const generateChatCompletion = async (req, res, Response, NextFunction) =
         return res.status(200).json({ chats: user.chats });
     }
     catch (error) {
-        console.log(error);
+        console.log(error, "errorrrrrrrrrr");
         res.status(400).json({ message: "something went wrong" });
     }
 };

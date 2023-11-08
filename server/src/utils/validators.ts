@@ -36,5 +36,4 @@ export const signupValidator = [
 
 export const messageValidator = [
     body("message").notEmpty().withMessage("Message is Required"),
-    ...loginValidator,
 ]

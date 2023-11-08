@@ -11,15 +11,17 @@ export const createToken = (id, email, expiresIn) => {
 };
 export const verifyToken = async (req, res, next) => {
     // console.log('enteredd',req.signedCookies);
+    console.log('entereddddddddd');
     const token = req.signedCookies[`${COOKIE_NAME}`];
     // console.log(token);
     if (!token || token.trim() === "") {
         return res.status(401).json({ message: "Token Not Recieved" });
     }
-    console.log(token);
+    // console.log(token);
     return new Promise((resolve, reject) => {
         return jwt.verify(token, process.env.JWT_SECRET, (err, success) => {
             if (err) {
+                console.log('erorrrrrrr');
                 reject(err.message);
                 return res.status(401).json({ message: "token expired" });
             }

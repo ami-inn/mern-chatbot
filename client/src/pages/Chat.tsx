@@ -3,44 +3,73 @@ import { red } from "@mui/material/colors";
 import { useAuth } from "../context/AuthContext";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from 'react-icons/io'
+import { useRef, useState } from "react";
+import { sendChatRequest } from "../helpers/api-communicator";
 
-const chatMessages = [
-  {
-    role: "user",
-    content: "Hello,can you tell me the weather forecast for tommorrow",
-  },
-  {
-    role: "assistant",
-    content: "sure, i can help with that.please provide me with your location",
-  },
-  {
-    role: "user",
-    content: "Hello,can you tell me the weather forecast for tommorrow",
-  },
-  {
-    role: "assistant",
-    content: "sure, i can help with that.please provide me with your location",
-  },
-  {
-    role: "user",
-    content: "Hello,can you tell me the weather forecast for tommorrow",
-  },
-  {
-    role: "assistant",
-    content: "sure, i can help with that.please provide me with your location",
-  },
-  {
-    role: "user",
-    content: "Hello,can you tell me the weather forecast for tommorrow",
-  },
-  {
-    role: "assistant",
-    content: "sure, i can help with that.please provide me with your location",
-  },
-];
+// const chatMessages = [
+//   {
+//     role: "user",
+//     content: "Hello,can you tell me the weather forecast for tommorrow",
+//   },
+//   {
+//     role: "assistant",
+//     content: "sure, i can help with that.please provide me with your location",
+//   },
+//   {
+//     role: "user",
+//     content: "Hello,can you tell me the weather forecast for tommorrow",
+//   },
+//   {
+//     role: "assistant",
+//     content: "sure, i can help with that.please provide me with your location",
+//   },
+//   {
+//     role: "user",
+//     content: "Hello,can you tell me the weather forecast for tommorrow",
+//   },
+//   {
+//     role: "assistant",
+//     content: "sure, i can help with that.please provide me with your location",
+//   },
+//   {
+//     role: "user",
+//     content: "Hello,can you tell me the weather forecast for tommorrow",
+//   },
+//   {
+//     role: "assistant",
+//     content: "sure, i can help with that.please provide me with your location",
+//   },
+// ];
+
+type Messages = {role:"user"|"assistant",content:string}
 
 const Chat = () => {
+
+  const inputRef = useRef<HTMLInputElement|null>(null)
   const auth = useAuth();
+
+  const [chatMessages,setChatMessages] = useState<Messages[]>([])
+
+  const handleSubmit =  async()=>{
+    console.log(inputRef.current?.value);
+
+    const content = inputRef.current?.value as string
+
+    if(inputRef && inputRef.current){
+      inputRef.current.value = ""
+    }
+    
+    const newMessage:Messages = {role:"user",content}
+    setChatMessages((prev)=>[...prev,newMessage])
+     // send 
+
+     console.log(content);
+     
+
+     const chatData = await sendChatRequest(content)
+
+     setChatMessages([...chatData.chats])
+  }
 
   return (
     <Box
@@ -144,6 +173,7 @@ const Chat = () => {
           }}
         >
           {chatMessages.map((chat, index) => (
+            // @ts-ignore
             <ChatItem content={chat.content} role={chat.role} key={index} />
           ))}
         </Box>
@@ -152,10 +182,13 @@ const Chat = () => {
 
     
 
-        <input type="text" style={{width:"100%",backgroundColor:"transparent",padding:"10px",border:"none",outline:"none",color:"white",fontSize:"20px"}} />
+        <input
+        ref={inputRef}
+        type="text" style={{width:"100%",backgroundColor:"transparent",padding:"10px",border:"none",outline:"none",color:"white",fontSize:"20px"}} />
         
             <IconButton
             sx={{ml:"auto",color:"white",}}
+            onClick={handleSubmit}
             >
               <IoMdSend/>
             </IconButton>

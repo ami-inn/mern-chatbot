@@ -18,6 +18,9 @@ export const createToken = (id: string, email: string, expiresIn: string) => {
 export const verifyToken = async (req:Request,res:Response,next:NextFunction)=>{
 
     // console.log('enteredd',req.signedCookies);
+
+    console.log('entereddddddddd');
+    
     
     const token = req.signedCookies[`${COOKIE_NAME}`]
 
@@ -28,11 +31,13 @@ export const verifyToken = async (req:Request,res:Response,next:NextFunction)=>{
         return res.status(401).json({message:"Token Not Recieved"})
     }
 
-    console.log(token);
+    // console.log(token);
 
     return new Promise<void>((resolve,reject)=>{
         return jwt.verify(token,process.env.JWT_SECRET,(err,success)=>{
             if(err){
+                console.log('erorrrrrrr');
+                
                 reject(err.message)
                 return res.status(401).json({message:"token expired"})
             }else{

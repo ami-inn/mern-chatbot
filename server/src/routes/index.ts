@@ -5,7 +5,7 @@ import chatRouter from './chat-router.js'
 const appRouter = Router()
 
 appRouter.use('/user',userRouter)
-appRouter.use('/chats',chatRouter )
+appRouter.use('/chat',chatRouter )
 
 
 export default appRouter
