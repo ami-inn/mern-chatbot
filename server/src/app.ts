@@ -20,7 +20,7 @@ app.use(
 
 
 app.use(express.json()) 
-app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // remove this in production
 app.use(morgan('dev'))

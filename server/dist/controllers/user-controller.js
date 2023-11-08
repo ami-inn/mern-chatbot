@@ -37,26 +37,55 @@ export const userSignup = async (req, res, next) => {
 };
 export const userLogin = async (req, res, next) => {
     try {
+        //user login
         const { email, password } = req.body;
-        console.log('enter heree', req.body);
         const user = await User.findOne({ email });
-        // console.log(user,'userrrr');
         if (!user) {
-            return res.status(401).json({ success: false, message: "no user exists" });
+            return res.status(401).send("User not registered");
         }
-        console.log('--------');
         const isPasswordCorrect = await compare(password, user.password);
-        console.log(isPasswordCorrect, 'passss');
         if (!isPasswordCorrect) {
-            return res.status(401).json({ success: false, message: "incorrect password" });
+            return res.status(403).send("Incorrect Password");
         }
-        console.log('-----------');
-        res.clearCookie(COOKIE_NAME, { domain: "localhost", httpOnly: true, signed: true, path: '/' });
+        // create token and store cookie
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            sameSite: "none",
+            path: "/",
+        });
         const token = createToken(user._id.toString(), user.email, "7d");
-        console.log(token, 'tokennn');
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
-        res.cookie('auth_token', token, { path: '/', domain: "localhost", expires, httpOnly: true, signed: true });
+        res.cookie(COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            expires,
+            httpOnly: true,
+            signed: true,
+        });
+        return res
+            .status(200)
+            .json({ message: "OK", name: user.name, email: user.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({ message: "ERROR", cause: error.message });
+    }
+};
+export const verifyUser = async (req, res, next) => {
+    try {
+        console.log('enter heree____________________');
+        const user = await User.findById({ _id: res.locals.jwtData.id });
+        console.log(user, 'userrrr');
+        if (!user) {
+            return res.status(401).json({ success: false, message: "user not registered or token malfunctioned" });
+        }
+        console.log('--------');
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).json({ success: false, message: "permission didnt match" });
+        }
         return res.status(200).json({ success: true, message: "ok", email: user.email, name: user.name });
     }
     catch (error) {

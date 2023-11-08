@@ -9,7 +9,7 @@ import axios from 'axios'
 import {Toaster} from 'react-hot-toast'
 
 axios.defaults.baseURL = "http://localhost:5000/api/v1"
-axios.defaults.withCredentials //helps to exchange the cookies
+axios.defaults.withCredentials = true //helps to exchange the cookies
 
 const theme = createTheme({typography:{fontFamily:"Roboto Slab,serif",allVariants:{color:'white'}}})
 ReactDOM.createRoot(document.getElementById('root')!).render(
