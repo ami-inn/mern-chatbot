@@ -11,9 +11,9 @@ function App() {
   
   return (
     <main>
-      <div className="particles-container">
+      {/* <div className="particles-container">
         <ParticlesBackground />
-      </div>
+      </div> */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

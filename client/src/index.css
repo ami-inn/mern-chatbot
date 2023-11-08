@@ -23,8 +23,9 @@ html,body{
   letter-spacing: 1px;
 }
 
-.parent-container {
+.particles-container {
   position: relative;
+  overflow: auto;
   z-index: 2; /* Set a higher value than .particles-container */
 }
 
