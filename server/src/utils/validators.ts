@@ -3,7 +3,7 @@ import {NextFunction,Request,Response} from 'express'
 
 
 export const validate = (validations:ValidationChain[])=>{ //type is the validation chain
-    console.log('entrerrrrrrrrr');
+    console.log('entrerrrrrrrrrdddd');
     
     return async (req:Request,res:Response,next:NextFunction)=>{
         for(let validation of validations){
@@ -16,6 +16,8 @@ export const validate = (validations:ValidationChain[])=>{ //type is the validat
 
         const errors = validationResult(req)
         if(errors.isEmpty()){
+            console.log('sucess');
+            
             return next()
         }
         res.status(422).json({errors:errors.array()})

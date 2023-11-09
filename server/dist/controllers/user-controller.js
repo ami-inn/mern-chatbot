@@ -15,6 +15,7 @@ export const getAllUsers = async (req, res, next) => {
 export const userSignup = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
+        console.log('req.bodyy', req.body);
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(401).json({ success: false, message: "user already exist" });

@@ -1,6 +1,6 @@
 import { body, validationResult } from 'express-validator';
 export const validate = (validations) => {
-    console.log('entrerrrrrrrrr');
+    console.log('entrerrrrrrrrrdddd');
     return async (req, res, next) => {
         for (let validation of validations) {
             const result = await validation.run(req);
@@ -10,6 +10,7 @@ export const validate = (validations) => {
         }
         const errors = validationResult(req);
         if (errors.isEmpty()) {
+            console.log('sucess');
             return next();
         }
         res.status(422).json({ errors: errors.array() });
