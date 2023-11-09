@@ -3,10 +3,10 @@ import { red } from "@mui/material/colors";
 import { useAuth } from "../context/AuthContext";
 import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from 'react-icons/io'
-import { useLayoutEffect, useRef, useState } from "react";
-import { getUserChats, sendChatRequest } from "../helpers/api-communicator";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { deleteUserChats, getUserChats, sendChatRequest } from "../helpers/api-communicator";
 import toast from "react-hot-toast";
-
+import {useNavigate} from 'react-router-dom'
 // const chatMessages = [
 //   {
 //     role: "user",
@@ -46,6 +46,8 @@ type Messages = {role:"user"|"assistant",content:string}
 
 const Chat = () => {
 
+  const navigate = useNavigate()
+
   const inputRef = useRef<HTMLInputElement|null>(null)
   const auth = useAuth();
 
@@ -73,7 +75,16 @@ const Chat = () => {
   }
 
   const handleDeleteChats = async ()=>{
-
+    try {
+      toast.loading("Deleting Chats",{id:"deletechats"})
+      await deleteUserChats()
+      setChatMessages([])
+      toast.loading("Deleted Chats Successfully",{id:"deleteChats"})
+    } catch (error) {
+      console.log(error);
+      toast.error("Delete chat failed",{id:"deleteChats"})
+      
+    }
   }
 
   useLayoutEffect(()=>{
@@ -91,6 +102,12 @@ const Chat = () => {
     })
     }
 
+  },[auth])
+
+  useEffect(()=>{
+    if(!auth?.user){
+      return  navigate('/login')
+    }
   },[auth])
 
   return (
@@ -155,6 +172,7 @@ const Chat = () => {
                 bgcolor: red.A400,
               },
             }}
+            onClick={handleDeleteChats}
           >
             Clear Conversation
           </Button>

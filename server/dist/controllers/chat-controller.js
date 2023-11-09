@@ -47,4 +47,26 @@ export const sendChatsToUser = async (req, res, next) => {
         return res.status(201).json({ message: "ERROR", cause: error.message });
     }
 };
+export const deleteChat = async (req, res, next) => {
+    try {
+        console.log('enter heree____________________');
+        const user = await User.findById({ _id: res.locals.jwtData.id });
+        console.log(user, 'userrrr');
+        if (!user) {
+            return res.status(401).json({ success: false, message: "user not registered or token malfunctioned" });
+        }
+        console.log('--------');
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).json({ success: false, message: "permission didnt match" });
+        }
+        //@ts-ignore
+        user.chats = [];
+        await user.save();
+        return res.status(200).json({ success: true, message: "ok dleeted" });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(201).json({ message: "ERROR", cause: error.message });
+    }
+};
 //# sourceMappingURL=chat-controller.js.map
